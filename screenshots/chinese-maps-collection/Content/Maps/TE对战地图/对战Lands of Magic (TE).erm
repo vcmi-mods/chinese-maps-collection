@@ -1,0 +1,42 @@
+ ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_ScriptDate=6.2(February).2007
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+
+; garrison
+!?OB70/17/0;
+!!OW:C?y-1;             y-1 = hero owner
+!!VRy-2:S1-y-1;
+!!PO70/17/0:N?y-3;
+!!GR70/17/0&y-3=0:Oy-2;
+
+!?BA1&1000; Battle ends
+!!BA:P?y-1/?y-2/?y-3;
+!!FU|y-1<>70/y-2<>17/y-3<>0:E;
+!!POy-1/y-2/y-3:N?y-4;
+!!HEv6106:O?y-5;
+!!GRy-1/y-2/y-3&y-4=0/y-5=-1:O-1; make garrison neutral if hero loose the battle
+!!POy-1/y-2/y-3&y-4=0/y-5<>-1:N1; hero wins
+
+;set at day 1
+!?TM2; First Day only for 1st player
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+!!CA9/10/0:T?y-1;
+!!FU23046:Py-1/5/1;
+!!FU23801:P8/56/0/v6100/9;
+!!FU23046:Py-1/4/1;
+!!FU23801:P51/4/0/v6100/18;
+!!CA66/60/0:T?y-1;
+!!FU23046:Py-1/5/1;
+!!FU23801:P51/8/0/v6100/9;
+!!FU23046:Py-1/4/1;
+!!FU23801:P70/9/0/v6100/18;
+!!SR20/54/0:S0; set summon boat
+
+!?FU23801; set monster at x1/x2/x3, x4=type, x5=quantity
+!!UN:Ox1/x2/x3; delete any object which occupies the square
+!!UN:Ix1/x2/x3/54/x4; place monster
+!!MOx1/x2/x3:Gx5 R1 U1; set its parameters
+! !IF:L^coords %X1/%X2/%X3, type %X4, qua %X5^;
+

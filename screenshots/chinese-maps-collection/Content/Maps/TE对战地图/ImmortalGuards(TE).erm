@@ -1,0 +1,329 @@
+ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+ERMS_ScriptDate=6.3(March).2007
+;IMMORTAL GUARDS MAP SCRIPT
+
+;VARIABLE DECLARATIONS
+  -----------------------------------
+;"v" variables:
+;v6100 - power of 2, calculated by FU23022 or number of object, calculated by FU23026
+;v6821, v6822 - flags for 1st defeating guards
+;v6823, v6824 - monster quantities (BA1, FU23804)
+-----------------------------------
+
+----------------  Guards --------
+;set at day 1
+!?TM2; First Day only for 1st player
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+;green town bonus
+!!CA26/19/0:T?y-1;
+!!CA26/19/0&y-1=2:B1/23; wall of Knowledge
+!!CA26/19/0&y-1=3:B1/23; order of fire
+!!CA26/19/0&y-1=5:B1/23; academy of battle scholars
+!!CA26/19/0&y-1=6:B1/23; hall of valhalla
+!!CA26/19/0&y-1=7:B1/17; cage of warlords
+;set 7th level guards
+!!VRv6801:C13/27/41/55/83/131;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O6/82/0;
+!!FU23800:P6/82/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O45/81/0;
+!!FU23800:P45/81/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O60/106/0;
+!!FU23800:P60/106/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O55/2/0;
+!!FU23800:P55/2/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O41/43/0;
+!!FU23800:P41/43/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O9/35/0;
+!!FU23800:P9/35/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O77/68/0;
+!!FU23800:P77/68/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O65/58/0;
+!!FU23800:P65/58/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O80/35/0;
+!!FU23800:P80/35/0/vv6100;
+!!FU23013:P1/6;
+!!VRv6100:+6800;
+!!UN:O100/42/0;
+!!FU23800:P100/42/0/vv6100;
+;set 6th level guards
+!!VRv6801:C11/25/39/53/67/81/95/109/121;
+!!FU23013:P1/9;
+!!VRv6100:+6800;
+!!UN:O26/67/0;
+!!FU23800:P26/67/0/vv6100;
+!!FU23013:P1/9;
+!!VRv6100:+6800;
+!!UN:O56/48/0;
+!!FU23800:P56/48/0/vv6100;
+!!FU23013:P1/9;
+!!VRv6100:+6800;
+!!UN:O85/51/0;
+!!FU23800:P85/51/0/vv6100;
+;set united guards
+!!VRv6801:C7/21/35/49/63/77/91/107/129;
+!!FU23013:P1/9;
+!!VRv6100:+6800;
+!!UN:O16/44/1;
+!!UN:O17/44/1;
+!!FU23800:P17/44/1/vv6100; set 4th level
+!!PO17/44/1:V1/15;
+!!FU23805:Pvv6100/?y-1/0;
+!!FU23800:P17/44/1/y-1; set 3rd level
+!!PO17/44/1:V0/20;
+
+!?FU23800; set new monster at game start, x1/x2/x3 - coords, x4=type
+!!VRy1:S10; quantity
+!!VRy1|x4=13/x4=27/x4=41/x4=55/x4=83:S5; reduce quantity for 7th level except phoenixes
+!!UN:Ix1/x2/x3/54/x4; place monster
+!!MOx1/x2/x3:Gy1 R1 U1; set its parameters
+!!POx1/x2/x3:Sx4 Ny1; store type and quantity
+
+;check at days after 1
+!?TM2; Day >1 for all players
+!!FU&v2392=1:E;  works only after 1st turn
+!!FU23807:P;
+
+!?FU23807; update monsters
+!!FU23801:P6/82/0;
+!!FU23801:P45/81/0;
+!!FU23801:P60/106/0;
+!!FU23801:P55/2/0;
+!!FU23801:P41/43/0;
+!!FU23801:P9/35/0;
+!!FU23801:P77/68/0;
+!!FU23801:P65/58/0;
+!!FU23801:P80/35/0;
+!!FU23801:P100/42/0;
+!!FU23801:P26/67/0;
+!!FU23801:P56/48/0;
+!!FU23801:P85/51/0;
+!!IP:D-1;
+!!FU23801:D6/82/0;
+!!FU23801:D45/81/0;
+!!FU23801:D60/106/0;
+!!FU23801:D55/2/0;
+!!FU23801:D41/43/0;
+!!FU23801:D9/35/0;
+!!FU23801:D77/68/0;
+!!FU23801:D65/58/0;
+!!FU23801:D80/35/0;
+!!FU23801:D100/42/0;
+!!FU23801:D26/67/0;
+!!FU23801:D56/48/0;
+!!FU23801:D85/51/0;
+
+!?FU23801; check monster at x1/x2/x3
+!!OBx1/x2/x3:T?y1 U?y2;
+!!POx1/x2/x3:S?y3 N?y4; get type and quantity
+! !OW:C?y5;
+! !IF:M^pl %Y5 pos %X1/%X2/%X3 type %Y1/%Y3/%Y2 q %Y4^;
+! !MOx1/x2/x3&y1=54/y2=y3:Gy4; restore quantity
+! !FU&y1=54/y2=y3:E; exit if monster not defeated
+! !IF:M^p%X1/%X2/%X3 placed again!^;
+!!UN:P904/1 P905/0; disable error messages
+!!HEx1/x2/x3:N?y9;
+!!UN:P905/?y8;
+!!UN:P904/0; enable error messages
+!!FU23155&y8=0:Py9/0; kill hero if he occupies the square
+!!UN&y1>0:Ox1/x2/x3; delete any object which occupies the square
+!!UN:Ix1/x2/x3/54/y3; place monster
+!!MOx1/x2/x3:Gy4 R1 U1; set its parameters
+
+
+;give bonus to player, who defeat guards first
+!?BA1&1000;
+!!FU&v6210<>1:E;
+!!HEv6106:O?y-1;
+!!FU&y-1=-1:E; exit if player loses
+!!BA:P?y-1/?y-2/?y-3;
+!!VRy-4:S-1;
+!!VRy-4&y-1=6/y-2=82/y-3=0:S7;
+!!VRy-4&y-1=45/y-2=81/y-3=0:S7;
+!!VRy-4&y-1=60/y-2=106/y-3=0:S7;
+!!VRy-4&y-1=55/y-2=2/y-3=0:S7;
+!!VRy-4&y-1=41/y-2=43/y-3=0:S7;
+!!VRy-4&y-1=9/y-2=35/y-3=0:S7;
+!!VRy-4&y-1=77/y-2=68/y-3=0:S7;
+!!VRy-4&y-1=65/y-2=58/y-3=0:S7;
+!!VRy-4&y-1=80/y-2=35/y-3=0:S7;
+!!VRy-4&y-1=100/y-2=42/y-3=0:S7;
+!!VRy-4&y-1=26/y-2=67/y-3=0:S6;
+!!VRy-4&y-1=56/y-2=48/y-3=0:S6;
+!!VRy-4&y-1=85/y-2=51/y-3=0:S6;
+!!FU&y-4<0:E;
+!!VRy-5&y-4=6:S6821;
+!!VRy-5&y-4=7:S6822;
+!!FU&vy-5>0:E; exit if not 1st time
+!!VRy-6&y-4=6:S3000;
+!!VRy-6&y-4=7:S10000;
+!!OW:R-1/6/dy-6; add money
+!!IF:M1/200000;
+!!VRvy-5:S1;
+
+!?BR&104/1000; battle beginning
+!!FU&v6210<>1:E;
+!!BA:P?y-1/?y-2/?y-3;
+!!FU|y-1<>17/y-2<>44/y-3<>1:E;
+!!POy-1/y-2/y-3:S?y-4 V0/?y-6 V1/?y-7; get type
+!!FU&y-7=0:E;
+!!FU23805:Py-4/?y-8/1;
+!!VRy-5:S99; horizontal position
+!!VRy-5|y-4=5/y-4=47/y-4=123:S98; for two-hexes 3rd level creatures
+!!BU:Sy-8/y-7/y-5/1/-1/0;
+
+!?OB54&999;
+!!FU|v998<>17/v999<>44/v1000<>1:E;
+!!PO17/44/1:V0/?y-1 V1/?y-2 S?y-3;
+!!FU|y-1=0/y-2=0:E;
+!!UN:O17/44/1;
+!!UN:O17/44/1;
+!!UN:I17/44/1/54/y-3; place monster
+!!MO17/44/1:Gy-1 R1 U1; set its parameters
+
+!$OB54&999;
+!!FU|v998<>17/v999<>44/v1000<>1:E;
+!!PO17/44/1&v6823=0/v6824=0:V0/0 V1/0;
+! !IF:L^%V6823, %V6824^;
+!!FU&v6823=0/v6824=0:E;
+!!PO17/44/1:S?y-1; get 3rd level type
+!!FU23805:Py-1/?y-2/1;
+!!if&v6823=0:; only 4th level remains
+!!UN:I17/44/1/54/y-2; place monster
+!!MO17/44/1:Gv6824 R1 U1; set its parameters
+!!PO17/44/1:V0/v6824 V1/0 Sy-2;
+!!en:;
+!!if&v6824=0:; only 3rd level remains
+!!PO17/44/1:V0/v6823 V1/0;
+!!en:;
+!!FU|v6823=0/v6824=0:E;
+!!UN:O17/44/1;
+!!UN:I17/44/1/54/y-2; place 4th monster
+!!UN:I17/44/1/54/y-1; place 3rd monster
+!!MO17/44/1:Gv6823 R1 U1; set its parameters
+!!PO17/44/1:V0/v6823 V1/v6824;
+
+!?BA1&1000;
+!!FU&v6210<>1:E;
+!!BA:P?y-1/?y-2/?y-3;
+!!FU|y-1<>17/y-2<>44/y-3<>1:E;
+!!VRv6823:C0/0;
+!!PO17/44/1:S?y-4 V1/?y-7; get type
+!!FU&y-7=0:E;
+!!FU23805:Py-4/?y-8/1;
+!!DO23804/21/40/1:Py-4/y-8;
+
+!?FU23804;
+!!BMx16:P?y1 N?y2 T?y3;
+!!VRv6823&y1>0/y3=x1:+y2;
+!!VRv6824&y1>0/y3=x2:+y2;
+
+!?FU23805;
+!!VRx2&x3=0:Sx1-2;
+!!VRx2&x3=0/x1=129:S123; Conflux exception
+!!VRx2&x3=1:Sx1+2;
+!!VRx2&x3=1/x1=123:S129; Conflux exception
+
+; show neutrals
+!?CM0;
+!!CM:I?y-1 S?y-2;
+!!FU|y-1<>37/y-2<>14:E;
+!!CM:P?y-1/?y-2/?y-3;
+!!FU|y-1<>17/y-2<>44/y-3<>1:E;
+!!PO17/44/1:V0/?y-1 V1/?y-2 S?y-3;
+!!FU|y-1=0/y-2=0:E;
+!!CM:R0;
+!!FU23805:Py-3/?y-4/1;
+!!FU23806:Py-2/1;
+!!VRz2:Sz1;
+!!FU23806:Py-1/0;
+!!VRz1:+^   ---   ^+z2;
+!!IF:Q1/21/y-3/21/y-4/4/z1;
+
+!?FU23806;
+!!VRz1&x1>4/x1<10:Sz200002;
+!!VRz1&x1>999:Sz200008;
+!!if&x2=0:;
+!!VRz1&x1<5:S^    ^+z200001;
+!!VRz1&x1>9/x1<20:S^   ^+z200003;
+!!VRz1&x1>19/x1<50:S^   ^+z200004;
+!!VRz1&x1>49/x1<100:S^  ^+z200005;
+!!VRz1&x1>99/x1<250:S^  ^+z200006;
+!!VRz1&x1>249/x1<1000:S^ ^+z200007;
+!!el:;
+!!VRz1&x1<5:Sz200001+^    ^;
+!!VRz1&x1>9/x1<20:Sz200003+^   ^;
+!!VRz1&x1>19/x1<50:Sz200004+^   ^;
+!!VRz1&x1>49/x1<100:Sz200005+^  ^;
+!!VRz1&x1>99/x1<250:Sz200006+^  ^;
+!!VRz1&x1>249/x1<1000:Sz200007+^ ^;
+!!en:;
+
+---------------- disappearing teleports ----------------
+!$OB43; Monolith One Way Entrance
+!!UN:Ov998/v999/v1000; remove Entrance
+------------- local events ---------------------------
+; teleporting events
+!?LE35/23/0&999;
+!!FU23802:P35/23/0;
+!?LE88/39/0&999;
+!!FU23802:P88/39/0;
+!?LE36/80/0&999;
+!!FU23802:P36/80/0;
+!?LE96/88/0&999;
+!!FU23802:P96/88/0;
+
+!?FU23802; teleport hero, x1/x2/x3 - coords of event
+!!HE-1:B0/?z12 N?y1;
+!!VRz14:Sz200015;
+!!VRz1:Sz200016;
+!!VRz2:Sz200017;
+!!VRz3:Sz200018;
+!!VRz4:Sz200019;
+!!VRz5:Sz200020;
+!!IF:G1/17/0/14/1/2/3/4/5/0/0/0/0/0/0/0; choice menu
+!!FU23024:Pv17; v6100 = 2-base logarithm of v17
+!!VRv6100:+1; v6100 = chosen line
+!!FU&v6100=5:E;
+!!VRv1&v6100=1:C1/1/0;
+!!VRv1&v6100=2:C101/1/0;
+!!VRv1&v6100=3:C1/91/0;
+!!VRv1&v6100=4:C82/104/0;
+!!OBv1/v2/v3:T?y2;
+!!UN:P904/1 P905/0; disable error messages
+!!HEv1/v2/v3:N?y9;
+!!UN:P905/?y8;
+!!UN:P904/0; enable error messages
+!!FU23155&y8=0:Py9/0; kill hero if he occupies the square
+!!UN&y2>0:Ov1/v2/v3; delete any object which occupies the square
+!!HEy1:Pv1/v2/v3; teleport hero
+!!LEx1/x2/x3:L1;
+------------- Quest Guards ---------------------------
+!?OB215&999;
+!!UN:Ov998/v999/v1000;
+------------------------------------------------------
+; update monsters menu line
+!?FU23000&115;
+!!VRz8:Sz200009; set menu line caption
+!!VRx2:S23807; set callback function number
+

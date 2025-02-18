@@ -1,0 +1,11 @@
+ ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_ScriptDate=6.2(February).2007
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+
+;set at day 1
+!?TM2; First Day only for 1st player
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+!!SR54/61/0:S0; set summon boat
+

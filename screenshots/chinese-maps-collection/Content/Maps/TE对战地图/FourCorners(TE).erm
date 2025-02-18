@@ -1,0 +1,376 @@
+ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+ERMS_ScriptDate=6.2(February).2007
+;FOUR CORNERS MAP SCRIPT
+
+;VARIABLE DECLARATIONS
+  -----------------------------------
+;"v" variables:
+;v6100 - power of 2, calculated by FU23022 or number of object, calculated by FU23026
+;v6800 - experience step (1000 by default)
+;v6801 - number of all tents on the map
+
+;"w" variables: w88 - which green tents are visited by hero
+  -----------------------------------
+
+!#VRv6800:S1000; set bonus step
+
+----------------  set parameters, count all tents --------
+!?TM2; First Day only for 1st player
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+!!PO36/35/0:O-1; set Lighthouse owner to nobody
+!!PO34/35/1:O-1; set Conflux owner to nobody
+!!UN:U10/-1/?v6801; set number of tents
+!!IF&v6801>30:M^Too many Keymaster Tents on the map! You may place 30 Tents or less^;
+; set Garrisons
+!!VRv1:S-1;
+!!DO23802/1/8/1:P;
+----------------  this script functions ----------------
+!?FU23800; count how many tents hero visited (v1), x1 = his bit w-var
+!!VRv2:*2;
+!!VRy1:Sx1 &v2;
+!!VRv1&y1=v2:+1; increase counter if tent is visited
+
+!?FU23801; give x1 expirience to hero #vx16
+!!HEvx16:Edx1;
+
+!?FU23802; set Garrison troops
+!!UN:U33/-1/-1/1;
+!!GRv1/v2/v3:O?y1; y1=owner
+!!OW:Wy1/0/?y2; y2 = start town number
+!!CA0/y2:T?y3; y3 = start town type
+; 1 level
+!!FU23046:Py3/0/1;
+!!GRv1/v2/v3:G0/v6100/20; set stack
+; 2 level
+!!FU23046:Py3/1/1;
+!!GRv1/v2/v3:G1/v6100/10; set stack
+; 3 level
+!!FU23046:Py3/2/1;
+!!GRv1/v2/v3:G2/v6100/5; set stack
+; 4 level
+!!FU23046:Py3/3/1;
+!!GRv1/v2/v3:G3/v6100/4; set stack
+; 5 level
+!!FU23046:Py3/4/1;
+!!GRv1/v2/v3:G4/v6100/3; set stack
+; 6 level
+!!FU23046:Py3/5/1;
+!!GRv1/v2/v3:G5/v6100/2; set stack
+; 7 level
+!!FU23046:Py3/6/1;
+!!GRv1/v2/v3:G6/v6100/1; set stack
+
+!?FU23803; events taking MPs; x1 = mode (0 = near Lighthouse, 1 = other)
+!!PO36/35/0:O?y1;
+!!OW:C?y2;
+!!HE-1|y1<>y2/x1=1:W0; take all MPs
+
+!?FU23804; remove artifact; x1=artifact, x16=hero
+!!HEx16:A2/x1/?y1/?y99;
+!!FU&y1=0:E;
+!!VRy2:Sx1*-1;
+!!HEx16:Ay2;
+
+!?FU23805; ask player x1 about Sandals of the Saint
+!!VRv1:C0/0/0/0/0/0/0/0/0/0/0;
+!!VRv6131:C-1/-1/-1/-1/-1/-1/-1/-1/-1/-1/-1;
+!!OW:Hx1/6130;  v6130 = number of current player's heroes; v6131,v6132... - their numbers
+!!DO23806/1/11/1:P;
+!!VRz14:Sz200026;
+!!VRz12:Sz200027;
+!!IF:G1/17/0/14/v1/v2/v3/v4/v5/v6/v7/v8/v9/v10/v11/12; hero choice menu
+!!FU23024:Pv17; v6100 = 2-base logarithm of v17
+!!VRv6100:+1; v6100 = chosen line
+
+; Set up v and z variables for List of heroes
+!?FU23806;
+!!VRy1:Sx16+6130; v-var index
+!!VRx16&vy1<0:S12;
+!!FU&vy1<0:E;
+!!HEvy1:B0/?zx16;
+!!VRvx16:Sx16;
+
+!?FU23807; teleport hero
+!!HE-1:B0/?z12 N?y1;
+!!VRz14:Sz200028;
+!!VRz1:Sz103553;
+!!VRz2:Sz103556;
+!!VRz3:Sz103554;
+!!VRz4:Sz103555;
+!!VRz5:Sz200029;
+!!IF:G1/17/0/14/1/2/3/4/5/0/0/0/0/0/0/0; choice menu
+!!FU23024:Pv17; v6100 = 2-base logarithm of v17
+!!VRv6100:+1; v6100 = chosen line
+!!FU&v6100=5:E;
+!!VRv1&v6100=1:C36/2/0;
+!!VRv1&v6100=2:C69/36/0;
+!!VRv1&v6100=3:C35/69/0;
+!!VRv1&v6100=4:C2/36/0;
+!!IF:V4/0;
+!!DO23808/0/155/1:Py1; check if a hero occupies destination square
+!!IF&4:L200025;
+!!HEy1&-4:Pv1/v2/v3; teleport hero
+
+!?FU23808; check if a hero occupies destination square; x1 = teleported hero
+!!HEx16:O?y4;
+!!FU&y4<0:E;
+!!HEx16:P?y1/?y2/?y3;
+!!IF&v1=y1/v2=y2/v3=y3/x16<>x1:V4/1;
+!!VRx16&v1=y1/v2=y2/v3=y3:S156; exit from loop
+
+!?FU23809; events taking MPs; x1 = town number
+!!VRy3:Sx1;
+!!VRy3&x1=1:S2;
+!!VRy3&x1=2:S3;
+!!VRy3&x1=3:S1;
+!!CA0/y3:O?y1;
+!!OW:C?y2;
+!!HE-1&y1<>y2:W0; take all MPs
+------------- visiting triggers ---------------------------
+!?OB10&999; tents
+!!IF:W-1;
+!!OW:C?y-5;
+!!OBv998/v999/v1000:Dy-5 U?y-6; y-6 = subtype
+!!FU|y-6<1/y-6>3:E; exit if it's not a valid tent
+!!FU23026:Pv998/v999/v1000/10/-1; get tent number
+!!FU23022:Pv6100; v6100=2^v6100
+!!VRy-3:Sv6100; y-3 = 2^tent_number
+!!VRy-2:Sw88;
+; Green tent - each hero can visit each tent once, and receives expirience
+!!VRy-2&y-6=1:&y-3;
+!!HE-1&y-6=1/y-2=y-3:B0/?z1;
+!!IF&y-6=1/y-2=y-3:M1/200030;
+!!FU&y-6=1/y-2=y-3:E; exit if visited
+; Red tent - each player can visit each tent once, all his heroes receive expirience
+; or Dark Blue tent - as Red one, but only one player will visit it, who come first
+!!FU23022&y-6<>1:Py-5; v6100=2^player
+!!POv998/v999/v1000&y-6<>1:S?y-1;
+!!VRy-2&y-6<>1:Sy-1; another copy, which will be changed
+!!VRy-2&y-6<>1:&v6100;
+!!IF&y-6<>1/y-2=v6100:M1/200031;
+!!FU&y-6<>1/y-2=v6100:E; exit if visited
+!!IF&y-6=3/y-2<>v6100/y-1>0:M1/200032; for Blue Tent
+!!VRy-4&y-6<>1:Sy-1 |v6100; add current player's bit
+!!POv998/v999/v1000&y-6<>1:Sy-4; set new value
+!!FU&y-6=3/y-2<>v6100/y-1>0:E; for Blue Tent, visited by another player
+!!VRw88:|y-3; add tent's bit to current hero's w-var
+; calculate bonus
+!!VRv1:C0/1;
+!!DO23800/1/v6801/1:Pw88;
+!!VRy-7:Sv1*v6800; y-7 = bonus
+!!HE-1&y-6=1:Edy-7; add expirience if it's Green tent
+!!FU&y-6=1:E; exit if it's Green tent
+!!OW:Hy-5/6130;  v6130 = number of current player's heroes; v6131,v6132... - their numbers
+!!VRy-8:Sv6130+6130; y-8 = # of 'v' variable last hero number stored in
+!!DO23801/6131/y-8/1:Py-7; give expirience
+
+!?OB36/35/0; Lighthouse
+!!HE-1:O?y-1 B0/?z1;
+!!PO36/35/0:O?y-2;
+!!FU&y-1=y-2:E;
+!!PO36/35/0:Oy-1;
+!!DO23804/0/155/1:P136; remove Admiral Hat from all heroes
+!!DO23804/0/155/1:P123; remove Sea Captain's Hat from all heroes
+!!DO23804/0/155/1:P71; remove Necklace of Ocean Guidance from all heroes
+!!HE-1:A4/136; visitor equips Admiral Hat
+!!FU23015:P; check that it's active player visit
+!!IF&115:L200033;
+
+!?OB45&999; Monolith Two Way
+!!HE-1:O?y-1;
+!!OBv998/v999/v1000:Ey-1; enable teleport
+!!CA0/4:O?y-2;
+!!OBv998/v999/v1000&y-1<>y-2:Dy-1; disable teleport
+
+!?OB43&999; Monolith One Way Entrance
+!!HE-1:O?y-1;
+!!OW:Ry-1/6/?y-2; player's gold
+!!IF&y-2<1000:L200034;
+!!OBv998/v999/v1000&y-2<1000:Dy-1; disable teleport
+!!FU&y-2<1000:E;
+!!OW:Ry-1/6/d-1000; reduce gold
+!!OBv998/v999/v1000:Ey-1; enable teleport
+
+!?OB13&999; Cartographer
+!!HE-1:O?y-1;
+!!OW:Ry-1/6/?y-2; player's gold
+!!IF&y-2<5000:L200035;
+!!OBv998/v999/v1000:Dy-1; disable
+!!FU&y-2<5000:E;
+!!IF:Q2/z200036; 'do you want' request
+!!OW&2:Ry-1/6/d-4000; reduce gold
+!!OBv998/v999/v1000&2:Ey-1; enable
+!!OBv998/v999/v1000&2:M-1/1/0; disable next message
+
+!?OB2&999; Altar of Sacrifice
+!!HE-1:O?y-1;
+!!OW:Ry-1/6/?y-2; player's gold
+!!IF&y-2<3000:L200037;
+!!OBv998/v999/v1000:Dy-1; disable
+!!FU&y-2<3000:E;
+!!IF:Q2/z200038; 'do you want' request
+!!OW&2:Ry-1/6/d-3000; reduce gold
+!!OBv998/v999/v1000&2:Ey-1; enable
+
+!?OB215&999; Quest Guards
+!!UN:Ov998/v999/v1000;
+------------- local events triggers ---------------------------
+; events near Lighthouse
+!?LE36/33/0;
+!!FU23803:P0;
+!?LE36/39/0;
+!!FU23803:P0;
+!?LE34/37/0;
+!!FU23803:P0;
+!?LE38/35/0;
+!!FU23803:P0;
+; underground events
+!?LE33/6/1&999;
+!!FU23803:P1;
+!?LE37/66/1&999;
+!!FU23803:P1;
+!?LE6/37/1&999;
+!!FU23803:P1;
+!?LE63/38/1&999;
+!!FU23803:P1;
+; events on water (stoppers)
+!?LE18/0/0;
+!!FU23809:P0;
+!?LE18/1/0;
+!!FU23809:P0;
+!?LE18/2/0;
+!!FU23809:P0;
+!?LE0/14/0;
+!!FU23809:P0;
+!?LE1/14/0;
+!!FU23809:P0;
+!?LE2/14/0;
+!!FU23809:P0;
+!?LE3/14/0;
+!!FU23809:P0;
+!?LE16/65/0;
+!!FU23809:P1;
+!?LE16/66/0;
+!!FU23809:P1;
+!?LE16/67/0;
+!!FU23809:P1;
+!?LE16/68/0;
+!!FU23809:P1;
+!?LE16/69/0;
+!!FU23809:P1;
+!?LE0/58/0;
+!!FU23809:P1;
+!?LE1/58/0;
+!!FU23809:P1;
+!?LE2/58/0;
+!!FU23809:P1;
+!?LE3/58/0;
+!!FU23809:P1;
+!?LE58/68/0;
+!!FU23809:P2;
+!?LE58/69/0;
+!!FU23809:P2;
+!?LE58/70/0;
+!!FU23809:P2;
+!?LE58/71/0;
+!!FU23809:P2;
+!?LE68/59/0;
+!!FU23809:P2;
+!?LE69/59/0;
+!!FU23809:P2;
+!?LE70/59/0;
+!!FU23809:P2;
+!?LE71/59/0;
+!!FU23809:P2;
+!?LE60/0/0;
+!!FU23809:P3;
+!?LE60/1/0;
+!!FU23809:P3;
+!?LE60/2/0;
+!!FU23809:P3;
+!?LE60/3/0;
+!!FU23809:P3;
+!?LE68/13/0;
+!!FU23809:P3;
+!?LE69/13/0;
+!!FU23809:P3;
+!?LE70/13/0;
+!!FU23809:P3;
+!?LE71/13/0;
+!!FU23809:P3;
+; events on water (teleports)
+!?LE36/2/0&999;
+!!HE-1:O?y-1;
+!!PO36/35/0:O?y-2;
+!!FU23807&y-1=y-2:P;
+!?LE2/36/0&999;
+!!HE-1:O?y-1;
+!!PO36/35/0:O?y-2;
+!!FU23807&y-1=y-2:P;
+!?LE35/69/0&999;
+!!HE-1:O?y-1;
+!!PO36/35/0:O?y-2;
+!!FU23807&y-1=y-2:P;
+!?LE69/36/0&999;
+!!HE-1:O?y-1;
+!!PO36/35/0:O?y-2;
+!!FU23807&y-1=y-2:P;
+
+------------- hints: right-click on tent ------------------
+!?CM0; hint for a tent
+!!CM:I?y-1 S?y-2;
+!!FU|y-1<>37/y-2<>14:E; exit if unproper click
+!!CM:P?y-1/?y-2/?y-3; click position
+!!OBy-1/y-2/y-3:T?y-4 U?y-5; type and subtype of an object
+!!FU|y-4<>10/y-5>3:E; exit if it's not a valid tent
+!!OW:Av6000/?y-7; current hero
+!!CM:R0; disable standard message
+; green tent
+!!IF&y-7<0/y-5=1:Q1/-1/-1/4/z200040;
+!!FU&y-7<0/y-5=1:E;
+!!FU23026&y-5=1:Py-1/y-2/y-3/10/-1;
+!!FU23022&y-5=1:Pv6100; v6100=2^v6100
+!!IF&y-5=1:Wy-7;
+!!VRy-8&y-5=1:Sw88 &v6100;
+!!IF&y-8=v6100/y-5=1:Q1/-1/-1/4/z200041;
+!!IF&y-8<>v6100/y-5=1:Q1/-1/-1/4/z200042;
+!!FU&y-5=1:E;
+; red or dark blue tent
+!!POy-1/y-2/y-3:S?y-9;
+!!FU23022:Pv6000; v6100=2^v6000
+!!VRy-9:&v6100;
+!!IF&y-9=v6100:Q1/-1/-1/4/z200041;
+!!IF&y-9<>v6100:Q1/-1/-1/4/z200042;
+
+!?FU23810; Shows how many tents he visited
+!!IF:Wx1;
+!!VRv1:C0/1;
+!!DO23800/1/v6801/1:Pw88;
+!!IF:L200044;
+
+!?FU23811;
+!!OW:C?y2;
+!!FU23805:Py2; ask player
+!!FU&v6100=12:E; exit if he didn't select a hero
+!!PO34/35/1:Oy2;
+!!VRy3:Sv6100+6130; v-var index (of selected hero number)
+!!VRy4:Svy3; selected hero number
+!!DO23804/0/155/1:P32; remove Sandals of the Saint from all heroes
+!!HEvy3:A4/32 B0/?z1; chosen hero equips Sandals of the Saint
+!!IF:L200039;
+
+!?FU23002&115;
+!!VRz8:Sz200043; set menu line caption
+!!VRx2:S23810; set callback function number
+
+!?FU23001&115;
+!!FU&x1<>4:E; exit if town isn't Hot Spot
+!!PO34/35/1:O?y1;
+!!OW:C?y2;
+!!FU&y1=y2:E;
+!!VRz8:Sz200010; set menu line caption
+!!VRx2:S23811; set callback function number
+

@@ -1,0 +1,31 @@
+ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+ERMS_ScriptDate=28.10(October).2006
+;BATTLEFIELD MAP SCRIPT
+
+!?FU23807; teleport hero
+!!HE-1:P?y1/?y2/?y3;
+!!VRv1&y1=7/y2=52:C63/18/0;
+!!VRv1&y1=63/y2=18:C7/52/0;
+!!IF:V4/0;
+!!DO23808/0/155/1:P; check if a hero occupies destination square
+!!IF&4:L^Alas, other hero occupies destination square^;
+!!HE-1&-4:Pv1/v2/v3; teleport hero
+
+!?FU23808; check if a hero occupies destination square;
+!!HEx16:O?y4;
+!!FU&y4<0:E;
+!!HEx16:P?y1/?y2/?y3;
+!!IF&v1=y1/v2=y2/v3=y3:V4/1;
+!!VRx16&v1=y1/v2=y2/v3=y3:S156; exit from loop
+
+; events on water (teleports)
+!?LE7/52/0&999;
+!!FU23807:P;
+!?LE63/18/0&999;
+!!FU23807:P;
+
+!$OB37;
+!!OBv998/v999/v1000:S; disable
+

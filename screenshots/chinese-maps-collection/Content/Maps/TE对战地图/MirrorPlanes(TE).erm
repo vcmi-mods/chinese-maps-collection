@@ -1,0 +1,388 @@
+ZVSE
+_WARNING_#1=IMPORTANT! This file is not in a plain text format. NEVER use any editor except ERM_S for making any kind of changes!
+ERMS_PoweredBy=ERM Scripter v. 2004.10.5.945
+ERMS_ScriptDate=6.2(February).2007
+
+!?TM2; switch towns
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+; random transposition
+!!VRv11:C1/2/3/4/5/6/7/8;
+!!FU23017:P11/18;
+!!UN:V?y-99/?y-99/?y-99/?y-1/?y-99;
+!!if&y-1=1:;
+!!IP:D-1;
+!!IP:V11/18;
+!!FU23899:D;
+!!en:;
+!!FU23899:P;
+
+!?TM2;
+; set Horn of Plane Shift name and description
+!!FU&v2392>1:E;  works only at 1st turn
+!!FU&v2391=0:E;  and only for 1st player
+!!VRz501:Sz200051;
+!!VRz502:Sz200052;
+!!UN:A170/3/1 A170/9/501 A170/10/502;
+!!DO23907/0/7/1:P0; garrison managing
+; Tree of Knowledges are for free
+!!KT37/1/0:S0;
+!!KT37/1/1:S0;
+!!KT36/66/0:S;
+!!KT36/66/1:S0;
+
+!?TM3; new week begins
+!!FU|v2393<>1/v2391=0:E;  works only on mondays and only for 1st player
+! !DO23914/0/155/1&v2392>1:P; removing heroes from dwellings
+! !IP&v2392>1/v6200=1:D-1;
+! !DO23914/0/155/1&v2392>1/v6200=1:P; the same on other PCs
+! !DO23907/0/7/1:P1; dwellings managing
+!!FU&v2392=1:E;  don't works at week 1
+!!DO23909/0/155/1:P; reset visited objects
+!!DO23910/1/8/1:P; reset Seer Huts
+!!DO23913/1/12/1:P; reset Witch Huts
+! !UN:U17/-1/?y-1; count dwellings
+! !VRv1:S-2; set for UN:U
+! !DO23912/1/y-1/1&y-1>0:P17;
+! !UN:U20/-1/?y-2; count dwellings
+! !VRv1:S-2; set for UN:U
+! !DO23912/1/y-2/1&y-2>0:P20;
+
+!?OB83&999; Seer Huts
+!!OBv998/v999/v1000:M-1/1/0; disable next message
+!!POv998/v999/v1000:S?y-5;
+!!IF&y-5=1:L200046;
+!!FU&y-5=1:E;
+!!HE-1:O?y-1; owner
+!!OW:Ry-1/6/?y-2; player's gold
+!!VRy-3:Sv2389-1; y-3 = 0-based week number
+!!FU23022:Py-3; v6100 = 2^(y-3)
+!!VRv6100:*1000;
+!!IF&y-2<v6100:L200047;
+!!FU&y-2<v6100:E;
+!!IF:Q2/z200045; 'do you want' request
+!!FU&-2:E;
+!!VRv6100:*-1;
+!!OW:Ry-1/6/dv6100; reduce gold
+!!POv998/v999/v1000:S1; set 'visited' flag
+!!DO23911/0/6/1:P; train army
+
+;give Horn of Plane Shift to hero, who defeats guards in time
+!?BA1;
+!!FU&v6210<>1:E;
+!!HEv6106:O?y-1;
+!!FU&y-1=-1:E; exit if player loses
+!!BA:P?y-1/?y-2/?y-3;
+!!VRy-4:S-1;
+!!VRy-4&y-1=0/y-2=36:S4;
+!!VRy-4&y-1=1/y-2=36:S3;
+!!VRy-4&y-1=2/y-2=36:S2;
+!!VRy-4&y-1=3/y-2=36:S1;
+!!VRy-4&y-1=4/y-2=36:S0;
+!!VRy-4&y-1=0/y-2=43:S4;
+!!VRy-4&y-1=1/y-2=43:S3;
+!!VRy-4&y-1=2/y-2=43:S2;
+!!VRy-4&y-1=3/y-2=43:S1;
+!!VRy-4&y-1=4/y-2=43:S0;
+!!VRy-4&y-1=71/y-2=30:S4;
+!!VRy-4&y-1=70/y-2=30:S3;
+!!VRy-4&y-1=69/y-2=30:S2;
+!!VRy-4&y-1=68/y-2=30:S1;
+!!VRy-4&y-1=67/y-2=30:S0;
+!!VRy-4&y-1=71/y-2=39:S4;
+!!VRy-4&y-1=70/y-2=39:S3;
+!!VRy-4&y-1=69/y-2=39:S2;
+!!VRy-4&y-1=68/y-2=39:S1;
+!!VRy-4&y-1=67/y-2=39:S0;
+!!FU&y-4<0:E;
+!!VRy-5:Sv2392-y-4;
+!!FU&y-5>2:E; too late
+!!HE-1:A4/170 W0 B0/?z1; give bonus and take movement
+!!IF:L200048;
+
+
+; Functions
+!?FU23899;
+! !FU&v6330=5:E;
+! !IF:M^save^;
+! !HE4/5/0:P4/6/0;
+! !CA4/5/0:O1;
+! !CA37/21/0:O0;
+! !FU:E;
+!!VRy-11:S66;
+!!VRy-12:S5;
+!!VRy-13:S1;
+!!VRy-14:S67;
+!!VRy-15:S68;
+!!VRy-16:S0;
+!!VRy-17:S5;
+!!VRy-18:S68;
+!!VRy-19:S0;
+!!VRy-20:S66;
+!!VRy-21:S5;
+!!VRy-22:S0;
+!!VRy-23:S4;
+!!VRy-24:S5;
+!!VRy-25:S1;
+!!VRy-26:S67;
+!!VRy-27:S68;
+!!VRy-28:S1;
+!!VRy-29:S5;
+!!VRy-30:S68;
+!!VRy-31:S1;
+!!VRy-8:S4;
+!!VRy-9:S5;
+!!VRy-10:S0;
+!!VRy-1:S0;
+!!FU23900:P;
+!!UN:H36/36/0/0/99;
+!!UN:H36/36/1/0/99;
+!!UN:H36/36/0/1/99;
+!!UN:H36/36/1/1/99;
+!!UN:R1 R2;
+!!UN:L36/36/1/1;
+
+
+!?FU23900; main function with recursion
+!!if&y-1=0:;
+!!DO23901/1/8/1:P; y-1 = new position 'from', y-2 = position 'to'
+!!FU&y-1=0:E; end of program
+!!FU23902:Py-1; read town1 info
+!!DO23904/6332/6399/1:P; copy v6332-v6399 to y-32-y-99
+!!en:;
+!!FU23902:Py-2; read town2 info
+!!FU23905:Py-2; set new town2 info
+!!DO23904/6332/6399/1:P; copy old town2 info to y-32-y-99
+!!VRy-3:Sy-1+10;
+!!VRvy-3:S0; reset what was transposed
+!!VRy-4:Sy-2+10;
+!!VRy-1&vy-4=0:S0; end of local cycle in our transposition
+!!VRy-1&vy-4<>0:Sy-2; local cycle continues
+!!VRy-2&vy-4<>0:Svy-4;
+!!FU23900:P; recursive call
+
+
+!?FU23901; loop function, sets y-1 and y-2, removes identical transpositions
+!!VRy1:Sx16+10;
+!!VRvy1&vy1=x16:S0; remove identical transposition
+!!if&vy1>0:;
+!!VRy-1:Sx16;
+!!VRy-2:Svy1;
+!!VRx16:S9;
+!!en:;
+
+
+!?FU23902; read town info, x1=index
+!!VRy1:Sx1*-3-5; yy1/yy2/yy3 - town coords
+!!VRy2:Sy1-1;
+!!VRy3:Sy1-2;
+!!CAyy1/yy2/yy3:T?v6332 O?v6333;
+! !IF:L^read %Y1 %V6332/%V6333^;
+!!DO23903/0/43/1:Pyy1/yy2/yy3;
+!!VRy4:Syy2+2;
+!!VRy5:Sy-2+10;
+!!HEyy1/yy2/yy3&vy5<>0:Pyy1/y4/yy3; hero moves two steps down if not end of local cycle
+!!UN:H36/36/0/0/99;
+!!UN:H36/36/1/0/99;
+!!UN:H36/36/0/1/99;
+!!UN:H36/36/1/1/99;
+!!UN:L36/36/1/1;
+!!CAyy1/yy2/yy3:M1/0/?v6398/?v1 M1/1/?v6399/?v1;
+!!CAyy1/yy2/yy3:G0/0/?v6378 G0/1/?v6379 G0/2/?v6380 G0/3/?v6381 G0/4/?v6382; 1st lvl spells
+!!CAyy1/yy2/yy3:G1/0/?v6383 G1/1/?v6384 G1/2/?v6385 G1/3/?v6386; 2nd lvl spells
+!!CAyy1/yy2/yy3:G2/0/?v6387 G2/1/?v6388 G2/2/?v6389; 3rd lvl spells
+!!FU|v6332=6/v6332=7:E; end if Fortress or Stronghold
+!!CAyy1/yy2/yy3:G3/0/?v6390 G3/1/?v6391; 4th lvl spells
+!!FU&v6332=0:E; end if Castle
+!!CAyy1/yy2/yy3:G4/0/?v6392; 5th lvl spell
+!!FU&v6332<>2:E; end if not Tower
+!!CAyy1/yy2/yy3:G0/5/?v6393 G1/4/?v6394 G2/3/?v6395 G3/2/?v6396 G4/1/?v6397; library spells
+
+!?FU23903; loop function, read what is built to v6334-v6377
+!!VRy1:Sx16+6334;
+!!VRvy1:S0;
+!!CAx1/x2/x3:B3/x16;
+!!VRvy1&1:+1;
+
+
+!?FU23904; loop function, copying v6332-v6397 to y-32-y-99
+!!VRy1:Sx16-6300*-1;
+!!VRyy1:Svx16;
+
+
+!?FU23905; set town info, x1=index
+!!VRy1:Sx1*-3-5; yy1/yy2/yy3 - town coords
+!!VRy2:Sy1-1;
+!!VRy3:Sy1-2;
+! !IF:L^set %Y1 %Y-32/%Y-33^;
+!!DO23906/0/43/1:Pyy1/yy2/yy3;
+!!VRy4:Sy-1*-3-5; yy4/yy5/yy6 - old town coords
+!!VRy5:Sy4-1;
+!!VRy6:Sy4-2;
+!!VRy7:Syy5+2; 2 steps down
+!!HEyy4/y7/yy6:Pyy1/yy2/yy3; hero moves to new location
+!!CAyy1/yy2/yy3:Ty-32 Oy-33 I0;
+!!UN:H36/36/0/0/99;
+!!UN:H36/36/1/0/99;
+!!UN:H36/36/0/1/99;
+!!UN:H36/36/1/1/99;
+!!UN:L36/36/1/1;
+!!CAyy1/yy2/yy3:B4/17 B4/18 B4/19 B4/20 B4/21 B4/22 B4/23 B4/24 B4/25;
+!!CAyy1/yy2/yy3:B2/17 B2/18 B2/19 B2/20 B2/21 B2/22 B2/23 B2/24 B2/25;
+!!CAyy1/yy2/yy3:M1/0/y-98/?v1 M1/1/y-99/?v1;
+!!CAyy1/yy2/yy3:G0/0/y-78 G0/1/y-79 G0/2/y-80 G0/3/y-81 G0/4/y-82; 1st lvl spells
+!!CAyy1/yy2/yy3:G1/0/y-83 G1/1/y-84 G1/2/y-85 G1/3/y-86; 2nd lvl spells
+!!CAyy1/yy2/yy3:G2/0/y-87 G2/1/y-88 G2/2/y-89; 3rd lvl spells
+!!FU|y-32=6/y-32=7:E; end if Fortress or Stronghold
+!!CAyy1/yy2/yy3:B4/3;
+!!CAyy1/yy2/yy3:G3/0/y-90 G3/1/y-91; 4th lvl spells
+!!FU&y-32=0:E; end if Castle
+!!CAyy1/yy2/yy3:B4/4;
+!!CAyy1/yy2/yy3:G4/0/y-92; 5th lvl spell
+!!FU&y-32<>2:E; end if not Tower
+!!CAyy1/yy2/yy3:G0/5/y-93 G1/4/y-94 G2/3/y-95 G3/2/y-96 G4/1/y-97; library spells
+
+!?FU23906; loop function, set what is built in town
+!!VRy1:Sx16+34*-1;
+!!CAx1/x2/x3&yy1=1:B6/x16;
+
+;garrisons and dwellings managing
+!?FU23907; loop function, x16 - town number, x1 = mode (0 - garrisons, 1 - dwellings)
+!!CA0/x16:P?y1/?y2/?y3 T?y4 O?y5; get type, owner and coords
+!!if&x1=0:;
+!!VRy2:+1;
+!!GRy1/y2/y3:Oy5; set owner
+!!DO23908/0/6/1:Py1/y2/y3/y4;
+!!el:;
+; set dwelling coords
+!!VRy6&y1=4/y2=5:S9;
+!!VRy7&y1=4/y2=5:S27;
+!!VRy6&y1=66/y2=5:S48;
+!!VRy7&y1=66/y2=5:S1;
+!!VRy6&y1=5/y2=68:S11;
+!!VRy7&y1=5/y2=68:S47;
+!!VRy6&y1=67/y2=68:S55;
+!!VRy7&y1=67/y2=68:S39;
+; set level
+!!FU23013:P1/10;
+!!VRy8:S0;
+!!VRy8&v6100>4:S1;
+!!VRy8&v6100>7:S2;
+!!VRy8&v6100>9:S3;
+!!UN:Oy6/y7/y3/1; remove old dwelling
+; set type and subtype
+!!VRy10:S17;
+!!VRy10&y4=2/y8=2:S20; Golems Factory case
+!!VRy9&y4=0/y8=0:S56;
+!!VRy9&y4=0/y8=1:S57;
+!!VRy9&y4=0/y8=2:S25;
+!!VRy9&y4=0/y8=3:S58;
+!!VRy9&y4=1/y8=0:S6;
+!!VRy9&y4=1/y8=1:S12;
+!!VRy9&y4=1/y8=2:S15;
+!!VRy9&y4=1/y8=3:S50;
+!!VRy9&y4=2/y8=0:S43;
+!!VRy9&y4=2/y8=1:S17;
+!!VRy9&y4=2/y8=2:S1;
+!!VRy9&y4=2/y8=3:S31;
+!!VRy9&y4=3/y8=0:S29;
+!!VRy9&y4=3/y8=1:S22;
+!!VRy9&y4=3/y8=2:S27;
+!!VRy9&y4=3/y8=3:S37;
+!!VRy9&y4=4/y8=0:S54;
+!!VRy9&y4=4/y8=1:S55;
+!!VRy9&y4=4/y8=2:S48;
+!!VRy9&y4=4/y8=3:S53;
+!!VRy9&y4=5/y8=0:S46;
+!!VRy9&y4=5/y8=1:S26;
+!!VRy9&y4=5/y8=2:S2;
+!!VRy9&y4=5/y8=3:S33;
+!!VRy9&y4=6/y8=0:S21;
+!!VRy9&y4=6/y8=1:S19;
+!!VRy9&y4=6/y8=2:S39;
+!!VRy9&y4=6/y8=3:S38;
+!!VRy9&y4=7/y8=0:S20;
+!!VRy9&y4=7/y8=1:S30;
+!!VRy9&y4=7/y8=2:S11;
+!!VRy9&y4=7/y8=3:S0;
+!!VRy9&y4=8/y8=0:S59;
+!!VRy9&y4=8/y8=1:S69;
+!!VRy9&y4=8/y8=2:S72;
+!!VRy9&y4=8/y8=3:S71;
+!!UN:Iy6/y7/y3/y10/y9;
+!!en:;
+
+!?FU23908; loop function, x1/x2/x3 - coords, x4 - town type, x16 - slot number
+!!FU23013:P0/4;
+!!VRy1:Sv6100; y1 = monster level
+!!FU23013:P0/1;
+!!VRy2:Sv6100;
+!!FU23046:Px4/y1/y2; v6100 = monster ID (not upgraded)
+!!VRy4:S1; y4 = quantity
+!!VRy4&y1=3:S2;
+!!VRy4&y1=2:S4;
+!!VRy4&y1=1:S6;
+!!VRy4&y1=0:S10;
+!!GRx1/x2/x3:Gx16/v6100/y4; set stack
+
+; reset at new week
+!?FU23909; loop function for heroes, x16 - hero number
+!!HEx16:V0/0; Learning stones
+!!HEx16:V1/0; Marletto towers
+!!HEx16:V2/0; Gardens of Revelation
+!!HEx16:V3/0; Mercenary Camps
+!!HEx16:V4/0; Star Axis
+!!HEx16:V5/0; Tree of Knowledge
+!!HEx16:V8/0; School of Magic
+!!HEx16:V9/0; School of War
+
+!?FU23910; loop function for Seer Huts, x16 - hut number
+!!UN:U83/-1/x16/1; v1/v2/v3 - coords of current Seer Hut
+!!POv1/v2/v3:S0; reset visited flag
+
+; train army
+!?FU23911; loop function, x16 - slot number
+!!HE-1:C0/x16/d/d/1/4;
+
+; set no owner of a dwelling
+!?FU23912; loop function
+!!UN:Ux1/-1/-2/1; Store location of current dwelling
+!!DWv1/v2/v3:O-1/1;
+
+!?FU23913; loop function for Witch Huts, x16 - hut number
+!!UN:U113/-1/x16/1; v1/v2/v3 - coords of current Witch Hut
+!!FU23013:P0/26;
+!!VRv6100&v6100=12:S27; replace Necromancy to FA
+!!WHv1/v2/v3:Sv6100; set skill
+!!POv1/v2/v3:S0; reset 'visited' value
+
+!?FU23914; check if a hero occupies dwelling square; x16 = hero ID
+!!HEx16:O?y4;
+!!FU&y4<0:E;
+!!HEx16:P?y1/?y2/?y3;
+!!IF:V4/0;
+!!IF&y1=8/y2=27:V4/1;
+!!IF&y1=9/y2=27:V4/1;
+!!IF&y1=47/y2=1:V4/1;
+!!IF&y1=48/y2=1:V4/1;
+!!IF&y1=54/y2=39:V4/1;
+!!IF&y1=55/y2=39:V4/1;
+!!IF&y1=10/y2=47:V4/1;
+!!IF&y1=11/y2=47:V4/1;
+!!FU23155&4:Px16/0; dismiss hero
+
+!?FU23915; Plane Shifting
+!!HEx1:P?y4/?y5/?y6;
+!!IF:Q2/z200049; 'do you want' request
+!!FU&-2:E;
+!!VRy9:S1-y6; alternate plane
+!!OBy4/y5/y9:T?y1 U?y99;
+!!IF&y1<>0:L200050;
+!!HEx1&y1=0:Py4/y5/y9 W0 A3/170/1/1;
+
+!?FU23002&115;
+!!HEx1:A2/170/?y99/?y8;
+!!FU&y8<1:E;
+!!VRz8:Sz200053; set menu line caption
+!!VRx2:S23915; set callback function number
+
